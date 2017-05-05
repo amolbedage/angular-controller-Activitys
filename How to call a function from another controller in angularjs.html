@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body ng-app="app">
+<div  class="container">
+  <div ng-controller="One">
+ {{name}}
+ <input type="submit" value="ctrl one" ng-click="parentmethod()">
+</div>
+</div>
+<div  class="container">
+  <div ng-controller="two">
+ {{name}}
+ <input type="submit" value="ctrl Two" ng-click="childmethod()">
+</div>
+  
+</div>
+
+<script>
+var app =angular.module('app', []);
+app.controller('One',function($scope,$rootScope) {
+        $rootScope.$on("CallParentMethod", function(){
+           $scope.parentmethod();
+		    $scope.name="amol bedge";
+        });
+
+        $scope.parentmethod = function() {
+            $scope.name="amol";
+        }
+    }
+);
+app.controller('two',  function($scope,$rootScope) {
+        $scope.childmethod = function() {
+            $rootScope.$emit("CallParentMethod", {});
+        }
+    }
+);
+</script>
+</body>
+</html>

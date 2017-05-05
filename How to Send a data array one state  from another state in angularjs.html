@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body ng-app="app">
+<div  class="container">
+  <div ng-controller="One">
+ {{name}}
+ <input type="submit" value="ctrl one" ng-click="parentmethod()">
+</div>
+</div>
+<div  class="container">
+  <div ng-controller="two">
+ {{data}}
+ <input type="submit" value="ctrl Two" ng-click="childmethod()">
+</div>
+  
+</div>
+
+<script>
+var app =angular.module('app', []);
+app.config(['$stateProvider', '$urlRouterProvider','$locationProvider', function($stateProvider, $urlRouterProvider,$locationProvider) {
+  
+    $urlRouterProvider.otherwise("/welcome");  
+	
+	 $stateProvider
+	  .state('welcome', {
+		    url: "/welcome",
+			templateUrl:"views/welcome.html",  
+            data: {pageTitle: 'Admin Dashboard Template'},
+             controller: "WelcomeController",
+			
+        })		
+			
+		//Search Track
+			.state('SearchTrack', {
+		    url: "/SearchTrack",
+			params: {myParam: null},// THis  is  requied for  send data to state 
+			templateUrl:"views/SearchTrack.html",  
+            data: {pageTitle: 'SearchTrack'},
+             controller: "SearchTrackController",
+			  })
+    }]);
+//--------------------------#########one #########---------------	
+app.controller('One',function($scope,$rootScope,$state,$stateParams) {
+          var name="amol"; var address="Kolhapur";
+       $state.go('SearchTrack',{myParam: {'name':name,'address':address}} );
+    });
+	//--------------------##########two############---------------------
+app.controller('two',  function($scope,$rootScope,$state,$stateParams) {
+       var data=$stateParams.myParam; //Get the data 
+    });
+</script>
+</body>
+</html>
